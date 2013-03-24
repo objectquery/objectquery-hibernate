@@ -13,6 +13,7 @@ import org.objectquery.generic.ConditionType;
 import org.objectquery.generic.GenericInternalQueryBuilder;
 import org.objectquery.generic.GenericObjectQuery;
 import org.objectquery.generic.Having;
+import org.objectquery.generic.ObjectQueryException;
 import org.objectquery.generic.Order;
 import org.objectquery.generic.PathItem;
 import org.objectquery.generic.Projection;
@@ -56,13 +57,13 @@ public class HQLQueryGenerator {
 			return " in ";
 		case LIKE:
 			return " like ";
-		case MAX:
+		case GREATER:
 			return " > ";
-		case MIN:
+		case LESS:
 			return " < ";
-		case MAX_EQUALS:
+		case GREATER_EQUALS:
 			return " >= ";
-		case MIN_EQUALS:
+		case LESS_EQUALS:
 			return " <= ";
 		case NOT_CONTAINS:
 			return " not member of ";
@@ -168,7 +169,8 @@ public class HQLQueryGenerator {
 					grouped = true;
 				} else
 					groupby.add(proj);
-				buildName(proj.getItem(), builder);
+				if (proj.getItem() instanceof PathItem)
+					buildName((PathItem) proj.getItem(), builder);
 				if (proj.getType() != null)
 					builder.append(")");
 				if (projections.hasNext())
@@ -194,24 +196,29 @@ public class HQLQueryGenerator {
 			Iterator<Projection> projections = groupby.iterator();
 			while (projections.hasNext()) {
 				Projection proj = projections.next();
-				buildName(proj.getItem(), builder);
+				if (proj.getItem() instanceof PathItem)
+					buildName((PathItem) proj.getItem(), builder);
 				if (projections.hasNext())
 					builder.append(",");
 			}
 		} else if (orderGrouped && query.getProjections().isEmpty()) {
 			builder.append(" group by A ");
 		}
-		
+
 		if (!query.getHavings().isEmpty()) {
 			builder.append(" having");
 			Iterator<Having> havings = query.getHavings().iterator();
 			while (havings.hasNext()) {
 				Having having = havings.next();
 				builder.append(" ").append(resolveFunction(having.getProjectionType())).append('(');
-				buildName(having.getItem(), builder);
+				if (having.getItem() instanceof PathItem)
+					buildName((PathItem) having.getItem(), builder);
+				else
+					throw new ObjectQueryException("unsupported subquery in the having clause for hql datastore", null);
 				builder.append(')').append(getConditionType(having.getConditionType()));
 				builder.append(":");
-				builder.append(buildParameterName(having.getItem(), having.getValue()));
+				builder.append(buildParameterName((PathItem) having.getItem(), having.getValue()));
+
 				if (havings.hasNext())
 					builder.append(" AND");
 
@@ -225,7 +232,8 @@ public class HQLQueryGenerator {
 				Order ord = orders.next();
 				if (ord.getProjectionType() != null)
 					builder.append(" ").append(resolveFunction(ord.getProjectionType())).append("(");
-				buildName(ord.getItem(), builder);
+				if (ord.getItem() instanceof PathItem)
+					buildName((PathItem) ord.getItem(), builder);
 				if (ord.getProjectionType() != null)
 					builder.append(")");
 				if (ord.getType() != null)
@@ -234,7 +242,7 @@ public class HQLQueryGenerator {
 					builder.append(',');
 			}
 		}
-	
+
 		this.query = builder.toString();
 	}
 

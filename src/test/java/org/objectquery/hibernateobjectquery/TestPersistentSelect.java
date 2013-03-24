@@ -119,10 +119,10 @@ public class TestPersistentSelect {
 		qp.eq(target.getName(), "tom");
 		qp.like(target.getName(), "tom");
 		qp.notLike(target.getName(), "tom");
-		qp.max(target.getName(), "tom");
-		qp.min(target.getName(), "tom");
-		qp.maxEq(target.getName(), "tom");
-		qp.minEq(target.getName(), "tom");
+		qp.gt(target.getName(), "tom");
+		qp.lt(target.getName(), "tom");
+		qp.gtEq(target.getName(), "tom");
+		qp.ltEq(target.getName(), "tom");
 		qp.notEq(target.getName(), "tom");
 		qp.likeNc(target.getName(), "tom");
 		qp.notLikeNc(target.getName(), "tom");
