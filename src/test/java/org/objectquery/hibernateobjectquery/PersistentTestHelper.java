@@ -61,6 +61,8 @@ public class PersistentTestHelper {
 		tom.setDud(tomDud);
 		tom.setMum(tomMum);
 		tom.setDog(tomDog);
+		tomDud.setDog(tomDog);
+		session.persist(tomDud);
 		session.persist(tom);
 		session.getTransaction().commit();
 		session.close();

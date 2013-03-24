@@ -1,14 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<groupId>org.objectquery</groupId>
 	<artifactId>hibernateobjectquery</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>hibernateobjectquery</name>
-	<url>http://maven.apache.org</url>
+	<url>http://www.objectquery.org</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +39,7 @@
 		<dependency>
 			<groupId>org.objectquery</groupId>
 			<artifactId>objectquery</artifactId>
-			<version>1.0.0</version>
+			<version>1.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -40,4 +53,29 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<scm>
+		<url>git@github.com:objectquery/hibernateobjectquery.git</url>
+		<connection>scm:git:git@github.com:objectquery/hibernateobjectquery.git</connection>
+		<developerConnection>scm:git:git@github.com:objectquery/hibernateobjectquery.git</developerConnection>
+	</scm>
+	<organization>
+		<name>Object Query</name>
+		<url>http://www.objectquery.org</url>
+	</organization>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/objectquery/hibernateobjectquery/issues</url>
+	</issueManagement>
+	<mailingLists>
+		<mailingList>
+			<name>Support</name>
+			<post>https://groups.google.com/group/objectquery</post>
+		</mailingList>
+	</mailingLists>
+	<developers>
+		<developer>
+			<name>tglman</name>
+		</developer>
+	</developers>
 </project>

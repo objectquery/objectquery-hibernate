@@ -25,7 +25,10 @@ public class HQLQueryGenerator {
 	private String query;
 
 	HQLQueryGenerator(GenericObjectQuery<?> jpqlObjectQuery) {
-		buildQuery(jpqlObjectQuery.getTargetClass(), (GenericInternalQueryBuilder) jpqlObjectQuery.getBuilder());
+		if (jpqlObjectQuery.getRootPathItem().getName() == null || jpqlObjectQuery.getRootPathItem().getName().isEmpty()) {
+			jpqlObjectQuery.getRootPathItem().setName("A");
+		}
+		buildQuery(jpqlObjectQuery.getTargetClass(), (GenericInternalQueryBuilder) jpqlObjectQuery.getBuilder(), jpqlObjectQuery.getRootPathItem().getName());
 	}
 
 	private void stringfyGroup(ConditionGroup group, StringBuilder builder) {
@@ -82,9 +85,6 @@ public class HQLQueryGenerator {
 	}
 
 	private void buildName(PathItem item, StringBuilder sb) {
-		sb.append("A");
-		if (item.getParent() != null)
-			sb.append(".");
 		GenericInternalQueryBuilder.buildPath(item, sb);
 	}
 
@@ -132,6 +132,8 @@ public class HQLQueryGenerator {
 	private void conditionValue(ConditionItem cond, StringBuilder sb) {
 		if (cond.getValue() instanceof PathItem) {
 			buildName((PathItem) cond.getValue(), sb);
+		} else if (cond.getValue() instanceof GenericObjectQuery<?>) {
+			buildSubquery(sb, (GenericObjectQuery<?>) cond.getValue());
 		} else {
 			sb.append(":");
 			sb.append(buildParameterName(cond.getItem(), cond.getValue()));
@@ -154,11 +156,16 @@ public class HQLQueryGenerator {
 		return "";
 	}
 
-	public void buildQuery(Class<?> clazz, GenericInternalQueryBuilder query) {
+	public void buildQuery(Class<?> clazz, GenericInternalQueryBuilder query, String prefix) {
 		parameters.clear();
+		StringBuilder builder = new StringBuilder();
+		buildQueryString(clazz, query, builder, prefix);
+		this.query = builder.toString();
+	}
+
+	public void buildQueryString(Class<?> clazz, GenericInternalQueryBuilder query, StringBuilder builder, String prefix) {
 		List<Projection> groupby = new ArrayList<Projection>();
 		boolean grouped = false;
-		StringBuilder builder = new StringBuilder();
 		builder.append("select ");
 		if (!query.getProjections().isEmpty()) {
 			Iterator<Projection> projections = query.getProjections().iterator();
@@ -171,14 +178,16 @@ public class HQLQueryGenerator {
 					groupby.add(proj);
 				if (proj.getItem() instanceof PathItem)
 					buildName((PathItem) proj.getItem(), builder);
+				else
+					buildSubquery(builder, (GenericObjectQuery<?>) proj.getItem());
 				if (proj.getType() != null)
 					builder.append(")");
 				if (projections.hasNext())
 					builder.append(",");
 			}
 		} else
-			builder.append("A");
-		builder.append(" from ").append(clazz.getName()).append(" A");
+			builder.append(prefix);
+		builder.append(" from ").append(clazz.getName()).append(" ").append(prefix);
 		if (!query.getConditions().isEmpty()) {
 			builder.append(" where ");
 			stringfyGroup(query, builder);
@@ -198,11 +207,13 @@ public class HQLQueryGenerator {
 				Projection proj = projections.next();
 				if (proj.getItem() instanceof PathItem)
 					buildName((PathItem) proj.getItem(), builder);
+				else
+					buildSubquery(builder, (GenericObjectQuery<?>) proj.getItem());
 				if (projections.hasNext())
 					builder.append(",");
 			}
 		} else if (orderGrouped && query.getProjections().isEmpty()) {
-			builder.append(" group by A ");
+			builder.append(" group by ").append(prefix).append(" ");
 		}
 
 		if (!query.getHavings().isEmpty()) {
@@ -218,7 +229,6 @@ public class HQLQueryGenerator {
 				builder.append(')').append(getConditionType(having.getConditionType()));
 				builder.append(":");
 				builder.append(buildParameterName((PathItem) having.getItem(), having.getValue()));
-
 				if (havings.hasNext())
 					builder.append(" AND");
 
@@ -234,6 +244,15 @@ public class HQLQueryGenerator {
 					builder.append(" ").append(resolveFunction(ord.getProjectionType())).append("(");
 				if (ord.getItem() instanceof PathItem)
 					buildName((PathItem) ord.getItem(), builder);
+				else {
+					throw new ObjectQueryException("Operation not supported by JPA datastore", null);
+					/*
+					GenericObjectQuery<?> goq = ((GenericObjectQuery<?>) ord.getItem());
+					builder.append("(");
+					buildQueryString(goq.getTargetClass(), (GenericInternalQueryBuilder) goq.getBuilder(), builder, goq.getRootPathItem().getName());
+					builder.append(")");
+					*/
+				}
 				if (ord.getProjectionType() != null)
 					builder.append(")");
 				if (ord.getType() != null)
@@ -242,8 +261,12 @@ public class HQLQueryGenerator {
 					builder.append(',');
 			}
 		}
+	}
 
-		this.query = builder.toString();
+	private void buildSubquery(StringBuilder builder, GenericObjectQuery<?> goq) {
+		builder.append("(");
+		buildQueryString(goq.getTargetClass(), (GenericInternalQueryBuilder) goq.getBuilder(), builder, goq.getRootPathItem().getName());
+		builder.append(")");
 	}
 
 	private void buildParameterName(PathItem conditionItem, StringBuilder builder) {
