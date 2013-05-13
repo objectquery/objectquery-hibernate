@@ -225,7 +225,7 @@ public class HQLQueryGenerator {
 				if (having.getItem() instanceof PathItem)
 					buildName((PathItem) having.getItem(), builder);
 				else
-					throw new ObjectQueryException("unsupported subquery in the having clause for hql datastore", null);
+					throw new ObjectQueryException("unsupported subquery in the having clause for hql", null);
 				builder.append(')').append(getConditionType(having.getConditionType()));
 				builder.append(":");
 				builder.append(buildParameterName((PathItem) having.getItem(), having.getValue()));
@@ -245,13 +245,7 @@ public class HQLQueryGenerator {
 				if (ord.getItem() instanceof PathItem)
 					buildName((PathItem) ord.getItem(), builder);
 				else {
-					throw new ObjectQueryException("Operation not supported by JPA datastore", null);
-					/*
-					GenericObjectQuery<?> goq = ((GenericObjectQuery<?>) ord.getItem());
-					builder.append("(");
-					buildQueryString(goq.getTargetClass(), (GenericInternalQueryBuilder) goq.getBuilder(), builder, goq.getRootPathItem().getName());
-					builder.append(")");
-					*/
+					throw new ObjectQueryException("Operation not supported by hql", null);
 				}
 				if (ord.getProjectionType() != null)
 					builder.append(")");
