@@ -73,9 +73,11 @@ public class HQLQueryGenerator {
 		case NOT_LIKE:
 			return "not like";
 		case LIKE_NOCASE:
-			return "";
+			return " like ";
 		case NOT_LIKE_NOCASE:
-			return "";
+			return " not like ";
+		case BETWEEN:
+			return " BETWEEN ";
 		}
 		return "";
 	}
@@ -107,10 +109,8 @@ public class HQLQueryGenerator {
 			sb.append("UPPER(");
 			buildName(cond.getItem(), sb);
 			sb.append(")");
-			if (cond.getType().equals(ConditionType.NOT_LIKE_NOCASE)) {
-				sb.append(" not");
-			}
-			sb.append(" like UPPER(");
+			sb.append(getConditionType(cond.getType()));
+			sb.append("UPPER(");
 			conditionValue(cond, sb);
 			sb.append(")");
 		} else if (cond.getType().equals(ConditionType.CONTAINS) || cond.getType().equals(ConditionType.NOT_CONTAINS)) {
@@ -125,6 +125,11 @@ public class HQLQueryGenerator {
 			conditionValue(cond, sb);
 			if (cond.getType().equals(ConditionType.IN) || cond.getType().equals(ConditionType.NOT_IN))
 				sb.append(")");
+			if (cond.getType().equals(ConditionType.BETWEEN)) {
+				sb.append(" AND ");
+				conditionValueTo(cond, sb);
+				sb.append(" ");
+			}
 		}
 	}
 
@@ -134,6 +139,15 @@ public class HQLQueryGenerator {
 		} else {
 			sb.append(":");
 			sb.append(buildParameterName(cond.getItem(), cond.getValue()));
+		}
+	}
+
+	private void conditionValueTo(ConditionItem cond, StringBuilder sb) {
+		if (cond.getValueTo() instanceof PathItem) {
+			buildName((PathItem) cond.getValue(), sb);
+		} else {
+			sb.append(":");
+			sb.append(buildParameterName(cond.getItem(), cond.getValueTo()));
 		}
 	}
 
@@ -201,7 +215,7 @@ public class HQLQueryGenerator {
 		} else if (orderGrouped && query.getProjections().isEmpty()) {
 			builder.append(" group by A ");
 		}
-		
+
 		if (!query.getHavings().isEmpty()) {
 			builder.append(" having");
 			Iterator<Having> havings = query.getHavings().iterator();
@@ -234,7 +248,7 @@ public class HQLQueryGenerator {
 					builder.append(',');
 			}
 		}
-	
+
 		this.query = builder.toString();
 	}
 
