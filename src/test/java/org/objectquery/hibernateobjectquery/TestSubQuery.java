@@ -48,13 +48,13 @@ public class TestSubQuery {
 		query.eq(target.getDud(), subQuery);
 		subQuery.eq(subQuery.target().getName(), target.getDog().getName());
 		ObjectQuery<Person> doubSubQuery = subQuery.subQuery(Person.class);
-		subQuery.eq(subQuery.target().getMum(), doubSubQuery);
+		subQuery.eq(subQuery.target().getMom(), doubSubQuery);
 
-		doubSubQuery.eq(doubSubQuery.target().getMum().getName(), subQuery.target().getMum().getName());
-		doubSubQuery.eq(doubSubQuery.target().getMum().getName(), query.target().getMum().getName());
+		doubSubQuery.eq(doubSubQuery.target().getMom().getName(), subQuery.target().getMom().getName());
+		doubSubQuery.eq(doubSubQuery.target().getMom().getName(), query.target().getMom().getName());
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.name  =  A.dog.name AND AA0.mum  =  (select AA0A0 from org.objectquery.hibernateobjectquery.domain.Person AA0A0 where AA0A0.mum.name  =  AA0.mum.name AND AA0A0.mum.name  =  A.mum.name))",
+				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.name  =  A.dog.name AND AA0.mom  =  (select AA0A0 from org.objectquery.hibernateobjectquery.domain.Person AA0A0 where AA0A0.mom.name  =  AA0.mom.name AND AA0A0.mom.name  =  A.mom.name))",
 				getQueryString(query));
 
 	}
@@ -66,10 +66,10 @@ public class TestSubQuery {
 		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
 		ObjectQuery<Person> subQuery1 = query.subQuery(Person.class);
 		query.eq(target.getDud(), subQuery);
-		query.eq(target.getMum(), subQuery1);
+		query.eq(target.getMom(), subQuery1);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0) AND A.mum  =  (select AA1 from org.objectquery.hibernateobjectquery.domain.Person AA1)",
+				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0) AND A.mom  =  (select AA1 from org.objectquery.hibernateobjectquery.domain.Person AA1)",
 				getQueryString(query));
 
 	}

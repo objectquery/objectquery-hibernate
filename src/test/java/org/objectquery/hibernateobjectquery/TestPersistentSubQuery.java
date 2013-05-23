@@ -65,7 +65,7 @@ public class TestPersistentSubQuery {
 		subQuery.eq(subQuery.target().getDog(), doubSubQuery);
 
 		doubSubQuery.notEq(doubSubQuery.target().getOwner(), subQuery.target());
-		doubSubQuery.notEq(doubSubQuery.target().getOwner(), query.target().getMum());
+		doubSubQuery.notEq(doubSubQuery.target().getOwner(), query.target().getMom());
 
 		List<Person> res = HibernateObjectQuery.buildQuery(query, session).list();
 		Assert.assertEquals(1, res.size());
@@ -83,7 +83,7 @@ public class TestPersistentSubQuery {
 		ObjectQuery<Person> subQuery1 = query.subQuery(Person.class);
 		subQuery1.eq(subQuery1.target().getName(), "tommum");
 		query.eq(target.getDud(), subQuery);
-		query.eq(target.getMum(), subQuery1);
+		query.eq(target.getMom(), subQuery1);
 
 		List<Person> res = HibernateObjectQuery.buildQuery(query, session).list();
 		Assert.assertEquals(1, res.size());

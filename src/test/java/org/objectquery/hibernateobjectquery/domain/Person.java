@@ -17,7 +17,7 @@ public class Person {
 	@ManyToMany
 	private List<Person> friends;
 	@OneToOne
-	private Person mum;
+	private Person mom;
 	@OneToOne
 	private Person dud;
 	@OneToOne
@@ -49,12 +49,12 @@ public class Person {
 		this.friends = friends;
 	}
 
-	public Person getMum() {
-		return mum;
+	public Person getMom() {
+		return mom;
 	}
 
 	public void setMum(Person mum) {
-		this.mum = mum;
+		this.mom = mum;
 	}
 
 	public Person getDud() {
