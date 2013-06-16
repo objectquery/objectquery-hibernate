@@ -1,12 +1,12 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.objectquery.hibernateobjectquery.domain.Dog;
-import org.objectquery.hibernateobjectquery.domain.Home;
-import org.objectquery.hibernateobjectquery.domain.Home.HomeType;
-import org.objectquery.hibernateobjectquery.domain.Person;
+import org.objectquery.hibernate.domain.Dog;
+import org.objectquery.hibernate.domain.Home;
+import org.objectquery.hibernate.domain.Person;
+import org.objectquery.hibernate.domain.Home.HomeType;
 
 public class PersistentTestHelper {
 

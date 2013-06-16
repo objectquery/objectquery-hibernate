@@ -8,11 +8,11 @@
 	</parent>
 
 	<groupId>org.objectquery</groupId>
-	<artifactId>hibernateobjectquery</artifactId>
+	<artifactId>objectquery-hibernate</artifactId>
 	<version>1.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hibernateobjectquery</name>
+	<name>objectquery-hibernate</name>
 	<url>http://www.objectquery.org</url>
 	<licenses>
 		<license>
@@ -54,9 +54,9 @@
 		</dependency>
 	</dependencies>
 	<scm>
-		<url>git@github.com:objectquery/hibernateobjectquery.git</url>
-		<connection>scm:git:git@github.com:objectquery/hibernateobjectquery.git</connection>
-		<developerConnection>scm:git:git@github.com:objectquery/hibernateobjectquery.git</developerConnection>
+		<url>git@github.com:objectquery/objectquery-hibernate.git</url>
+		<connection>scm:git:git@github.com:objectquery/objectquery-hibernate.git</connection>
+		<developerConnection>scm:git:git@github.com:objectquery/objectquery-hibernate.git</developerConnection>
 	</scm>
 	<organization>
 		<name>Object Query</name>
@@ -65,12 +65,12 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/objectquery/hibernateobjectquery/issues</url>
+		<url>https://github.com/objectquery/objectquery-hibernate/issues</url>
 	</issueManagement>
 	<mailingLists>
 		<mailingList>
 			<name>Support</name>
-			<post>https://groups.google.com/group/objectquery</post>
+			<post>list@objectquery.org</post>
 		</mailingList>
 	</mailingLists>
 	<developers>

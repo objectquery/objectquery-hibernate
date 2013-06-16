@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import java.util.ArrayList;
 import java.util.Collection;

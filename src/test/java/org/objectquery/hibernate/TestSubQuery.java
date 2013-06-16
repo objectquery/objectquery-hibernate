@@ -1,10 +1,11 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
-import org.objectquery.hibernateobjectquery.domain.Person;
+import org.objectquery.hibernate.HibernateObjectQuery;
+import org.objectquery.hibernate.domain.Person;
 
 public class TestSubQuery {
 
@@ -21,7 +22,7 @@ public class TestSubQuery {
 		query.eq(query.target().getDud(), subQuery);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.name  =  :AA0_name)",
+				"select A from org.objectquery.hibernate.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernate.domain.Person AA0 where AA0.name  =  :AA0_name)",
 				getQueryString(query));
 
 	}
@@ -35,7 +36,7 @@ public class TestSubQuery {
 		query.eq(query.target().getDud(), subQuery);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.name  =  A.dog.name)",
+				"select A from org.objectquery.hibernate.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernate.domain.Person AA0 where AA0.name  =  A.dog.name)",
 				getQueryString(query));
 	}
 
@@ -54,7 +55,7 @@ public class TestSubQuery {
 		doubSubQuery.eq(doubSubQuery.target().getMom().getName(), query.target().getMom().getName());
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.name  =  A.dog.name AND AA0.mom  =  (select AA0A0 from org.objectquery.hibernateobjectquery.domain.Person AA0A0 where AA0A0.mom.name  =  AA0.mom.name AND AA0A0.mom.name  =  A.mom.name))",
+				"select A from org.objectquery.hibernate.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernate.domain.Person AA0 where AA0.name  =  A.dog.name AND AA0.mom  =  (select AA0A0 from org.objectquery.hibernate.domain.Person AA0A0 where AA0A0.mom.name  =  AA0.mom.name AND AA0A0.mom.name  =  A.mom.name))",
 				getQueryString(query));
 
 	}
@@ -69,7 +70,7 @@ public class TestSubQuery {
 		query.eq(target.getMom(), subQuery1);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0) AND A.mom  =  (select AA1 from org.objectquery.hibernateobjectquery.domain.Person AA1)",
+				"select A from org.objectquery.hibernate.domain.Person A where A.dud  =  (select AA0 from org.objectquery.hibernate.domain.Person AA0) AND A.mom  =  (select AA1 from org.objectquery.hibernate.domain.Person AA1)",
 				getQueryString(query));
 
 	}
@@ -83,7 +84,7 @@ public class TestSubQuery {
 		query.prj(subQuery);
 
 		Assert.assertEquals(
-				"select (select AA0 from org.objectquery.hibernateobjectquery.domain.Person AA0 where AA0.dog.owner  =  A.dud) from org.objectquery.hibernateobjectquery.domain.Person A",
+				"select (select AA0 from org.objectquery.hibernate.domain.Person AA0 where AA0.dog.owner  =  A.dud) from org.objectquery.hibernate.domain.Person A",
 				getQueryString(query));
 
 	}

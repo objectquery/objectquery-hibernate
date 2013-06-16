@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,7 +6,8 @@ import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
 import org.objectquery.generic.JoinType;
 import org.objectquery.generic.ObjectQueryException;
-import org.objectquery.hibernateobjectquery.domain.Person;
+import org.objectquery.hibernate.HibernateObjectQuery;
+import org.objectquery.hibernate.domain.Person;
 
 public class TestJoinQuery {
 
@@ -17,7 +18,7 @@ public class TestJoinQuery {
 		query.eq(query.target().getMom(), joined);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A,org.objectquery.hibernateobjectquery.domain.Person AB0 where A.mom  =  AB0",
+				"select A from org.objectquery.hibernate.domain.Person A,org.objectquery.hibernate.domain.Person AB0 where A.mom  =  AB0",
 				HibernateObjectQuery.hqlGenerator(query).getQuery());
 	}
 
@@ -28,7 +29,7 @@ public class TestJoinQuery {
 		query.eq(query.target().getMom(), joined);
 
 		Assert.assertEquals(
-				"select A from org.objectquery.hibernateobjectquery.domain.Person A LEFT JOIN org.objectquery.hibernateobjectquery.domain.Person AB0 where A.mom  =  AB0",
+				"select A from org.objectquery.hibernate.domain.Person A LEFT JOIN org.objectquery.hibernate.domain.Person AB0 where A.mom  =  AB0",
 				HibernateObjectQuery.hqlGenerator(query).getQuery());
 	}
 
@@ -38,7 +39,7 @@ public class TestJoinQuery {
 		Person joined = query.join(query.target().getMom(), Person.class, JoinType.LEFT);
 		query.eq(joined.getName(), "test");
 
-		Assert.assertEquals("select A from org.objectquery.hibernateobjectquery.domain.Person A LEFT JOIN A.mom AB0 where AB0.name  =  :AB0_name",
+		Assert.assertEquals("select A from org.objectquery.hibernate.domain.Person A LEFT JOIN A.mom AB0 where AB0.name  =  :AB0_name",
 				HibernateObjectQuery.hqlGenerator(query).getQuery());
 	}
 

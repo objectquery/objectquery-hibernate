@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery.domain;
+package org.objectquery.hibernate.domain;
 
 import java.util.List;
 

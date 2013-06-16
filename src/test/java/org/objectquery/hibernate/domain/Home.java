@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery.domain;
+package org.objectquery.hibernate.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

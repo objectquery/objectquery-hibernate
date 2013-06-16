@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import java.util.List;
 
@@ -10,8 +10,9 @@ import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
 import org.objectquery.generic.ObjectQueryException;
 import org.objectquery.generic.ProjectionType;
-import org.objectquery.hibernateobjectquery.domain.Dog;
-import org.objectquery.hibernateobjectquery.domain.Person;
+import org.objectquery.hibernate.HibernateObjectQuery;
+import org.objectquery.hibernate.domain.Dog;
+import org.objectquery.hibernate.domain.Person;
 
 public class TestPersistentSubQuery {
 

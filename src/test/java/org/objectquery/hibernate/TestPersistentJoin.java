@@ -1,4 +1,4 @@
-package org.objectquery.hibernateobjectquery;
+package org.objectquery.hibernate;
 
 import java.util.List;
 
@@ -11,7 +11,8 @@ import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
 import org.objectquery.generic.JoinType;
 import org.objectquery.generic.ObjectQueryException;
-import org.objectquery.hibernateobjectquery.domain.Person;
+import org.objectquery.hibernate.HibernateObjectQuery;
+import org.objectquery.hibernate.domain.Person;
 
 public class TestPersistentJoin {
 	private Session session;
