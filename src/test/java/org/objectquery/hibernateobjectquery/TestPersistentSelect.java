@@ -232,6 +232,18 @@ public class TestPersistentSelect {
 		Assert.assertEquals(1, res.size());
 		Assert.assertEquals((Double) res.get(0)[1], 1000000d, 0);
 	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testSelectBetweenCondition() {
+		ObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		Home target = qp.target();
+		qp.between(qp.box(target.getPrice()), 100000D, 2000000D);
+
+		List<Home> res = HibernateObjectQuery.buildQuery(qp, session).list();
+		Assert.assertEquals(1, res.size());
+		Assert.assertEquals(res.get(0).getPrice(), 1000000d, 0);
+	}
 
 	@After
 	public void afterTest() {
