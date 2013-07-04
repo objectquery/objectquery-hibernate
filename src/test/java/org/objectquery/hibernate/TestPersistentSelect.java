@@ -13,7 +13,6 @@ import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
 import org.objectquery.generic.OrderType;
 import org.objectquery.generic.ProjectionType;
-import org.objectquery.hibernate.HibernateObjectQuery;
 import org.objectquery.hibernate.domain.Home;
 import org.objectquery.hibernate.domain.Person;
 
@@ -56,6 +55,17 @@ public class TestPersistentSelect {
 		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
 		Assert.assertEquals(1, res.size());
 		Assert.assertEquals(res.get(0).getDud().getHome(), res.get(0).getMom().getHome());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSelectPathParam() {
+		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		Person target = qp.target();
+		qp.eq(target.getDud().getName(), "tomdud");
+		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
+		Assert.assertEquals(1, res.size());
+		Assert.assertEquals(res.get(0).getDud().getName(), "tomdud");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -233,7 +243,7 @@ public class TestPersistentSelect {
 		Assert.assertEquals(1, res.size());
 		Assert.assertEquals((Double) res.get(0)[1], 1000000d, 0);
 	}
-	
+
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testSelectBetweenCondition() {
