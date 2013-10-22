@@ -7,19 +7,23 @@ import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.objectquery.BaseQuery;
+import org.objectquery.DeleteQuery;
+import org.objectquery.InsertQuery;
 import org.objectquery.ObjectQuery;
-import org.objectquery.generic.GenericObjectQuery;
+import org.objectquery.UpdateQuery;
+import org.objectquery.generic.GenericBaseQuery;
 import org.objectquery.generic.ObjectQueryException;
 
 public class HibernateObjectQuery {
 
-	public static HQLQueryGenerator hqlGenerator(ObjectQuery<?> objectQuery) {
-		if (objectQuery instanceof GenericObjectQuery<?>)
-			return new HQLQueryGenerator((GenericObjectQuery<?>) objectQuery);
+	public static HQLQueryGenerator hqlGenerator(BaseQuery<?> objectQuery) {
+		if (objectQuery instanceof GenericBaseQuery<?>)
+			return new HQLQueryGenerator((GenericBaseQuery<?>) objectQuery);
 		throw new ObjectQueryException("The Object query instance of unconvertable implementation ", null);
 	}
 
-	public static Query buildQuery(ObjectQuery<?> objectQuery, Session session) {
+	public static Query buildQuery(BaseQuery<?> objectQuery, Session session) {
 		HQLQueryGenerator gen = hqlGenerator(objectQuery);
 		Query qu = session.createQuery(gen.getQuery());
 		Map<String, Object> pars = gen.getParameters();
@@ -37,6 +41,18 @@ public class HibernateObjectQuery {
 
 	public static Object execute(ObjectQuery<?> objectQuery, Session session) {
 		return buildQuery(objectQuery, session).list();
+	}
+
+	public static int execute(DeleteQuery<?> dq, Session session) {
+		return buildQuery(dq, session).executeUpdate();
+	}
+
+	public static int execute(InsertQuery<?> ip, Session session) {
+		return buildQuery(ip, session).executeUpdate();
+	}
+
+	public static int execute(UpdateQuery<?> query, Session session) {
+		return buildQuery(query, session).executeUpdate();
 	}
 
 }

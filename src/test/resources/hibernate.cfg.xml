@@ -13,5 +13,6 @@
 		<mapping class="org.objectquery.hibernate.domain.Dog" />
 		<mapping class="org.objectquery.hibernate.domain.Home" />
 		<mapping class="org.objectquery.hibernate.domain.Person" />
+		<mapping class="org.objectquery.hibernate.domain.Other" />
 	</session-factory>
 </hibernate-configuration>

@@ -5,8 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.objectquery.hibernate.domain.Dog;
 import org.objectquery.hibernate.domain.Home;
-import org.objectquery.hibernate.domain.Person;
 import org.objectquery.hibernate.domain.Home.HomeType;
+import org.objectquery.hibernate.domain.Person;
 
 public class PersistentTestHelper {
 
@@ -62,6 +62,7 @@ public class PersistentTestHelper {
 		tom.setMum(tomMum);
 		tom.setDog(tomDog);
 		tomDud.setDog(tomDog);
+		
 		session.persist(tomDud);
 		session.persist(tom);
 		session.getTransaction().commit();

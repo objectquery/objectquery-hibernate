@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.objectquery.ObjectQuery;
 import org.objectquery.generic.GenericObjectQuery;
-import org.objectquery.hibernate.HibernateObjectQuery;
 import org.objectquery.hibernate.domain.Person;
 
 public class TestSubQuery {
