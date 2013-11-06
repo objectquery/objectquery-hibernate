@@ -6,8 +6,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.objectquery.ObjectQuery;
-import org.objectquery.generic.GenericObjectQuery;
+import org.objectquery.SelectQuery;
+import org.objectquery.generic.GenericSelectQuery;
 import org.objectquery.generic.OrderType;
 import org.objectquery.generic.ProjectionType;
 import org.objectquery.hibernate.domain.Home;
@@ -18,7 +18,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testBaseCondition() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getName(), "tom");
 
@@ -29,7 +29,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testDupliedPath() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getName(), "tom");
 		qp.eq(target.getName(), "tom3");
@@ -42,7 +42,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testDottedPath() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getDog().getName(), "tom");
 		qp.eq(target.getDud().getName(), "tom3");
@@ -55,7 +55,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testProjection() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.prj(target.getName());
 		qp.eq(target.getDog().getName(), "tom");
@@ -68,7 +68,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testProjectionCountThis() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.prj(target, ProjectionType.COUNT);
 		qp.eq(target.getDog().getName(), "tom");
@@ -81,7 +81,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testSelectOrder() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getDog().getName(), "tom");
 		qp.order(target.getName());
@@ -94,7 +94,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testOrderAsc() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getDog().getName(), "tom");
 		qp.order(target.getName(), OrderType.ASC);
@@ -107,7 +107,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testOrderDesc() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getDog().getName(), "tom");
 		qp.order(target.getName(), OrderType.DESC);
@@ -121,7 +121,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testOrderGrouping() {
 
-		GenericObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		GenericSelectQuery<Home> qp = new GenericSelectQuery<Home>(Home.class);
 		Home target = qp.target();
 		qp.eq(target.getAddress(), "homeless");
 		qp.order(qp.box(target.getPrice()), ProjectionType.COUNT, OrderType.ASC);
@@ -134,7 +134,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testOrderGroupingPrj() {
 
-		GenericObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		GenericSelectQuery<Home> qp = new GenericSelectQuery<Home>(Home.class);
 		Home target = qp.target();
 		qp.prj(target.getAddress());
 		qp.prj(qp.box(target.getPrice()), ProjectionType.COUNT);
@@ -149,7 +149,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testAllSimpleConditions() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		qp.eq(target.getName(), "tom");
 		qp.like(target.getName(), "tom");
@@ -171,7 +171,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testINCondition() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		List<String> pars = new ArrayList<String>();
 		qp.in(target.getName(), pars);
@@ -185,7 +185,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testContainsCondition() {
 
-		GenericObjectQuery<Person> qp = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> qp = new GenericSelectQuery<Person>(Person.class);
 		Person target = qp.target();
 		Person p = new Person();
 		qp.contains(target.getFriends(), p);
@@ -200,7 +200,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testProjectionGroup() {
 
-		ObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		SelectQuery<Home> qp = new GenericSelectQuery<Home>(Home.class);
 		Home target = qp.target();
 		qp.prj(target.getAddress());
 		qp.prj(qp.box(target.getPrice()), ProjectionType.MAX);
@@ -214,7 +214,7 @@ public class TestSimpleQuery {
 	@Test
 	public void testProjectionGroupHaving() {
 
-		ObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		SelectQuery<Home> qp = new GenericSelectQuery<Home>(Home.class);
 		Home target = qp.target();
 		qp.prj(target.getAddress());
 		qp.prj(qp.box(target.getPrice()), ProjectionType.MAX);
@@ -228,7 +228,7 @@ public class TestSimpleQuery {
 	
 	@Test
 	public void testBetweenCondition() {
-		ObjectQuery<Home> qp = new GenericObjectQuery<Home>(Home.class);
+		SelectQuery<Home> qp = new GenericSelectQuery<Home>(Home.class);
 		Home target = qp.target();
 		qp.between(qp.box(target.getPrice()), 20D, 30D);
 

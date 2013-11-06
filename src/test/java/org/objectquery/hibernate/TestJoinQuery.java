@@ -2,8 +2,8 @@ package org.objectquery.hibernate;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.objectquery.ObjectQuery;
-import org.objectquery.generic.GenericObjectQuery;
+import org.objectquery.SelectQuery;
+import org.objectquery.generic.GenericSelectQuery;
 import org.objectquery.generic.JoinType;
 import org.objectquery.generic.ObjectQueryException;
 import org.objectquery.hibernate.domain.Person;
@@ -12,7 +12,7 @@ public class TestJoinQuery {
 
 	@Test
 	public void testSimpleJoin() {
-		ObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person joined = query.join(Person.class);
 		query.eq(query.target().getMom(), joined);
 
@@ -23,7 +23,7 @@ public class TestJoinQuery {
 
 	@Test(expected = ObjectQueryException.class)
 	public void testTypedJoin() {
-		ObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person joined = query.join(Person.class, JoinType.LEFT);
 		query.eq(query.target().getMom(), joined);
 
@@ -34,7 +34,7 @@ public class TestJoinQuery {
 
 	@Test
 	public void testTypedPathJoin() {
-		ObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person joined = query.join(query.target().getMom(), Person.class, JoinType.LEFT);
 		query.eq(joined.getName(), "test");
 

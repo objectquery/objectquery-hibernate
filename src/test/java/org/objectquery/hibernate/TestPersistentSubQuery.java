@@ -6,8 +6,8 @@ import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.objectquery.ObjectQuery;
-import org.objectquery.generic.GenericObjectQuery;
+import org.objectquery.SelectQuery;
+import org.objectquery.generic.GenericSelectQuery;
 import org.objectquery.generic.ObjectQueryException;
 import org.objectquery.generic.ProjectionType;
 import org.objectquery.hibernate.domain.Dog;
@@ -26,9 +26,9 @@ public class TestPersistentSubQuery {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testSubquerySimple() {
-		ObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getName(), "tomdud");
 		query.eq(query.target().getDud(), subQuery);
 
@@ -40,9 +40,9 @@ public class TestPersistentSubQuery {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testBackReferenceSubquery() {
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getDog().getName(), target.getDog().getName());
 		subQuery.notEq(subQuery.target(), target);
 		query.eq(query.target().getDud(), subQuery);
@@ -56,12 +56,12 @@ public class TestPersistentSubQuery {
 	@SuppressWarnings("unchecked")
 	public void testDoubleSubQuery() {
 
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		query.eq(target.getDud(), subQuery);
 		subQuery.eq(subQuery.target().getDog().getName(), target.getDog().getName());
-		ObjectQuery<Dog> doubSubQuery = subQuery.subQuery(Dog.class);
+		SelectQuery<Dog> doubSubQuery = subQuery.subQuery(Dog.class);
 		subQuery.eq(subQuery.target().getDog(), doubSubQuery);
 
 		doubSubQuery.notEq(doubSubQuery.target().getOwner(), subQuery.target());
@@ -76,11 +76,11 @@ public class TestPersistentSubQuery {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testMultipleReferenceSubquery() {
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getName(), "tomdud");
-		ObjectQuery<Person> subQuery1 = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery1 = query.subQuery(Person.class);
 		subQuery1.eq(subQuery1.target().getName(), "tommum");
 		query.eq(target.getDud(), subQuery);
 		query.eq(target.getMom(), subQuery1);
@@ -94,9 +94,9 @@ public class TestPersistentSubQuery {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testProjectionSubquery() {
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getDog().getOwner(), target.getDud());
 		query.prj(subQuery);
 
@@ -110,9 +110,9 @@ public class TestPersistentSubQuery {
 
 	@Test(expected = ObjectQueryException.class)
 	public void testOrderSubquery() {
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getDog().getOwner(), target.getDud());
 		query.order(subQuery);
 
@@ -121,9 +121,9 @@ public class TestPersistentSubQuery {
 
 	@Test(expected = ObjectQueryException.class)
 	public void testHavingSubquery() {
-		GenericObjectQuery<Person> query = new GenericObjectQuery<Person>(Person.class);
+		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
 		Person target = query.target();
-		ObjectQuery<Person> subQuery = query.subQuery(Person.class);
+		SelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getDog().getOwner(), target.getDud());
 		query.having(subQuery, ProjectionType.COUNT).eq(3D);
 

@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import org.objectquery.BaseQuery;
 import org.objectquery.DeleteQuery;
 import org.objectquery.InsertQuery;
-import org.objectquery.ObjectQuery;
+import org.objectquery.SelectQuery;
 import org.objectquery.UpdateQuery;
 import org.objectquery.generic.GenericBaseQuery;
 import org.objectquery.generic.ObjectQueryException;
@@ -39,7 +39,7 @@ public class HibernateObjectQuery {
 		return qu;
 	}
 
-	public static Object execute(ObjectQuery<?> objectQuery, Session session) {
+	public static Object execute(SelectQuery<?> objectQuery, Session session) {
 		return buildQuery(objectQuery, session).list();
 	}
 
