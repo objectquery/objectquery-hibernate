@@ -11,28 +11,24 @@ import org.objectquery.UpdateQuery;
 
 public class HibernateQueryEngine extends QueryEngine<Session> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <RET extends List<?>> RET execute(SelectQuery<?> query, Session engineSession) {
-		// TODO Auto-generated method stub
-		return null;
+		return (RET) HibernateObjectQuery.execute(query, engineSession);
 	}
 
 	@Override
 	public int execute(DeleteQuery<?> dq, Session engineSession) {
-		// TODO Auto-generated method stub
-		return 0;
+		return HibernateObjectQuery.execute(dq, engineSession);
 	}
 
 	@Override
 	public boolean execute(InsertQuery<?> ip, Session engineSession) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Hibernate Query Engine doesn't support insert query");
 	}
 
 	@Override
 	public int execute(UpdateQuery<?> query, Session engineSession) {
-		// TODO Auto-generated method stub
-		return 0;
+		return HibernateObjectQuery.execute(query, engineSession);
 	}
-
 }

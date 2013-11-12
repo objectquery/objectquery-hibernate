@@ -10,7 +10,6 @@ import org.objectquery.UpdateQuery;
 import org.objectquery.generic.GenericUpdateQuery;
 import org.objectquery.generic.ObjectQueryException;
 import org.objectquery.hibernate.domain.Home;
-import org.objectquery.hibernate.domain.Home.HomeType;
 import org.objectquery.hibernate.domain.Other;
 import org.objectquery.hibernate.domain.Person;
 

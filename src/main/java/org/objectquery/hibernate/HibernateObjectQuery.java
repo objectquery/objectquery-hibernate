@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.objectquery.BaseQuery;
 import org.objectquery.DeleteQuery;
-import org.objectquery.InsertQuery;
 import org.objectquery.SelectQuery;
 import org.objectquery.UpdateQuery;
 import org.objectquery.generic.GenericBaseQuery;
@@ -20,7 +19,7 @@ public class HibernateObjectQuery {
 	public static HQLQueryGenerator hqlGenerator(BaseQuery<?> objectQuery) {
 		if (objectQuery instanceof GenericBaseQuery<?>)
 			return new HQLQueryGenerator((GenericBaseQuery<?>) objectQuery);
-		throw new ObjectQueryException("The Object query instance of unconvertable implementation ", null);
+		throw new ObjectQueryException("The Object Query instance of unconvertable implementation ", null);
 	}
 
 	public static Query buildQuery(BaseQuery<?> objectQuery, Session session) {
@@ -39,7 +38,7 @@ public class HibernateObjectQuery {
 		return qu;
 	}
 
-	public static Object execute(SelectQuery<?> objectQuery, Session session) {
+	public static List<?> execute(SelectQuery<?> objectQuery, Session session) {
 		return buildQuery(objectQuery, session).list();
 	}
 
@@ -47,9 +46,6 @@ public class HibernateObjectQuery {
 		return buildQuery(dq, session).executeUpdate();
 	}
 
-	public static int execute(InsertQuery<?> ip, Session session) {
-		return buildQuery(ip, session).executeUpdate();
-	}
 
 	public static int execute(UpdateQuery<?> query, Session session) {
 		return buildQuery(query, session).executeUpdate();

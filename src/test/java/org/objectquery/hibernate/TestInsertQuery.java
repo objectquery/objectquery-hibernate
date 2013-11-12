@@ -24,7 +24,7 @@ public class TestInsertQuery {
 	public void testSimpleInsert() {
 		InsertQuery<Person> ip = new GenericInsertQuery<Person>(Person.class);
 		ip.set(ip.target().getName(), "test");
-		HibernateObjectQuery.execute(ip, session);
+		HibernateObjectQuery.buildQuery(ip, session);
 	}
 
 	@After
