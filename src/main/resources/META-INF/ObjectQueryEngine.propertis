@@ -1,1 +1,2 @@
 org.objectquery.QueryEngine = org.objectquery.hibernate.HibernateQueryEngine
+org.hibernate.Session = org.objectquery.hibernate.HibernateQueryEngine
