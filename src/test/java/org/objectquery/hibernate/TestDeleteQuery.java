@@ -25,7 +25,7 @@ public class TestDeleteQuery {
 	public void testSimpleDelete() {
 		Other ot = new Other();
 		ot.setText("text");
-		session.persist(ot);
+		session.merge(ot);
 		DeleteQuery<Other> dq = new GenericeDeleteQuery<Other>(Other.class);
 		int deleted = HibernateObjectQuery.execute(dq, session);
 		Assert.assertTrue(deleted != 0);
