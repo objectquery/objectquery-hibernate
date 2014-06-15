@@ -12,7 +12,7 @@ public class TestJoinQuery {
 
 	@Test
 	public void testSimpleJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(Person.class);
 		query.eq(query.target().getMom(), joined);
 
@@ -23,7 +23,7 @@ public class TestJoinQuery {
 
 	@Test(expected = ObjectQueryException.class)
 	public void testTypedJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(Person.class, JoinType.LEFT);
 		query.eq(query.target().getMom(), joined);
 
@@ -34,7 +34,7 @@ public class TestJoinQuery {
 
 	@Test
 	public void testTypedPathJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(query.target().getMom(), Person.class, JoinType.LEFT);
 		query.eq(joined.getName(), "test");
 

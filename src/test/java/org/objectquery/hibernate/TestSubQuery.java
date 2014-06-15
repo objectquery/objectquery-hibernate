@@ -2,6 +2,7 @@ package org.objectquery.hibernate;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.objectquery.BaseSelectQuery;
 import org.objectquery.SelectQuery;
 import org.objectquery.generic.GenericSelectQuery;
 import org.objectquery.hibernate.domain.Person;
@@ -14,9 +15,9 @@ public class TestSubQuery {
 
 	@Test
 	public void testSubquerySimple() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person, Object>(Person.class);
 
-		SelectQuery<Person> subQuery = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getName(), "test");
 		query.eq(query.target().getDud(), subQuery);
 
@@ -28,9 +29,9 @@ public class TestSubQuery {
 
 	@Test
 	public void testBackReferenceSubquery() {
-		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		GenericSelectQuery<Person, Object> query = new GenericSelectQuery<Person, Object>(Person.class);
 		Person target = query.target();
-		SelectQuery<Person> subQuery = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getName(), target.getDog().getName());
 		query.eq(query.target().getDud(), subQuery);
 
@@ -42,12 +43,12 @@ public class TestSubQuery {
 	@Test
 	public void testDoubleSubQuery() {
 
-		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		GenericSelectQuery<Person, Object> query = new GenericSelectQuery<Person, Object>(Person.class);
 		Person target = query.target();
-		SelectQuery<Person> subQuery = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery = query.subQuery(Person.class);
 		query.eq(target.getDud(), subQuery);
 		subQuery.eq(subQuery.target().getName(), target.getDog().getName());
-		SelectQuery<Person> doubSubQuery = subQuery.subQuery(Person.class);
+		BaseSelectQuery<Person> doubSubQuery = subQuery.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getMom(), doubSubQuery);
 
 		doubSubQuery.eq(doubSubQuery.target().getMom().getName(), subQuery.target().getMom().getName());
@@ -61,10 +62,10 @@ public class TestSubQuery {
 
 	@Test
 	public void testMultipleReferenceSubquery() {
-		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		GenericSelectQuery<Person, Object> query = new GenericSelectQuery<Person, Object>(Person.class);
 		Person target = query.target();
-		SelectQuery<Person> subQuery = query.subQuery(Person.class);
-		SelectQuery<Person> subQuery1 = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery1 = query.subQuery(Person.class);
 		query.eq(target.getDud(), subQuery);
 		query.eq(target.getMom(), subQuery1);
 
@@ -76,9 +77,9 @@ public class TestSubQuery {
 
 	@Test
 	public void testProjectionSubquery() {
-		GenericSelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		GenericSelectQuery<Person, Object> query = new GenericSelectQuery<Person, Object>(Person.class);
 		Person target = query.target();
-		SelectQuery<Person> subQuery = query.subQuery(Person.class);
+		BaseSelectQuery<Person> subQuery = query.subQuery(Person.class);
 		subQuery.eq(subQuery.target().getDog().getOwner(), target.getDud());
 		query.prj(subQuery);
 

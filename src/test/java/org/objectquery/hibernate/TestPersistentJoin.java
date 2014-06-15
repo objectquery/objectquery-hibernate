@@ -25,7 +25,7 @@ public class TestPersistentJoin {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testSimpleJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(Person.class);
 		query.eq(query.target().getMom(), joined);
 
@@ -36,7 +36,7 @@ public class TestPersistentJoin {
 	@Test(expected = ObjectQueryException.class)
 	@SuppressWarnings("unchecked")
 	public void testTypedJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(Person.class, JoinType.LEFT);
 		query.eq(query.target().getMom(), joined);
 
@@ -47,7 +47,7 @@ public class TestPersistentJoin {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testTypedPathJoin() {
-		SelectQuery<Person> query = new GenericSelectQuery<Person>(Person.class);
+		SelectQuery<Person> query = new GenericSelectQuery<Person,Object>(Person.class);
 		Person joined = query.join(query.target().getMom(), Person.class, JoinType.LEFT);
 		query.eq(joined.getName(), "tommum");
 

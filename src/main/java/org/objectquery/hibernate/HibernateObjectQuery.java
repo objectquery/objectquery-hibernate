@@ -8,8 +8,8 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.objectquery.BaseQuery;
+import org.objectquery.BaseSelectQuery;
 import org.objectquery.DeleteQuery;
-import org.objectquery.SelectQuery;
 import org.objectquery.UpdateQuery;
 import org.objectquery.generic.GenericBaseQuery;
 import org.objectquery.generic.ObjectQueryException;
@@ -38,7 +38,7 @@ public class HibernateObjectQuery {
 		return qu;
 	}
 
-	public static List<?> execute(SelectQuery<?> objectQuery, Session session) {
+	public static List<?> execute(BaseSelectQuery<?> objectQuery, Session session) {
 		return buildQuery(objectQuery, session).list();
 	}
 
