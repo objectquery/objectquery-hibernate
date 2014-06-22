@@ -3,6 +3,7 @@ package org.objectquery.hibernate;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -129,6 +130,15 @@ public class TestPersistentSubQuery {
 		query.having(subQuery, ProjectionType.COUNT).eq(3D);
 
 		HibernateObjectQuery.buildQuery(query, session).list();
+	}
+
+	@After
+	public void afterTest() {
+		if (session != null) {
+			session.getTransaction().commit();
+			session.close();
+		}
+		session = null;
 	}
 
 }

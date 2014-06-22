@@ -252,6 +252,12 @@ public class HQLQueryGenerator {
 					buildSubquery(builder, (GenericSelectQuery<?, ?>) proj.getItem());
 				if (proj.getType() != null)
 					builder.append(")");
+				if (proj.getMapper() != null) {
+					if (proj.getMapper().getParent().getParent() != null)
+						throw new ObjectQueryException("Nested mapping projection not supported by Hibernate implementation");
+					builder.append(" as ").append(proj.getMapper().getName());
+				}
+
 				if (projections.hasNext())
 					builder.append(",");
 			}

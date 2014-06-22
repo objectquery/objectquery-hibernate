@@ -7,11 +7,14 @@ import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.objectquery.BaseQuery;
-import org.objectquery.BaseSelectQuery;
 import org.objectquery.DeleteQuery;
+import org.objectquery.SelectMapQuery;
+import org.objectquery.SelectQuery;
 import org.objectquery.UpdateQuery;
 import org.objectquery.generic.GenericBaseQuery;
+import org.objectquery.generic.GenericSelectQuery;
 import org.objectquery.generic.ObjectQueryException;
 
 public class HibernateObjectQuery {
@@ -38,14 +41,21 @@ public class HibernateObjectQuery {
 		return qu;
 	}
 
-	public static List<?> execute(BaseSelectQuery<?> objectQuery, Session session) {
+	public static List<?> execute(SelectQuery<?> objectQuery, Session session) {
 		return buildQuery(objectQuery, session).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <RET extends List<M>, M> RET execute(SelectMapQuery<?, M> objectQuery, Session session) {
+		GenericSelectQuery<?, M> genericQuery = (GenericSelectQuery<?, M>) objectQuery;
+		Query query = buildQuery(objectQuery, session);
+		query.setResultTransformer(Transformers.aliasToBean(genericQuery.getMapperClass()));
+		return (RET) query.list();
 	}
 
 	public static int execute(DeleteQuery<?> dq, Session session) {
 		return buildQuery(dq, session).executeUpdate();
 	}
-
 
 	public static int execute(UpdateQuery<?> query, Session session) {
 		return buildQuery(query, session).executeUpdate();
