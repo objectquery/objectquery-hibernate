@@ -1,7 +1,8 @@
 package org.objectquery.hibernate;
 
+import static org.junit.Assert.assertThat;
+
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.objectquery.SelectMapQuery;
 import org.objectquery.generic.GenericSelectQuery;
@@ -15,8 +16,7 @@ public class TestSelectMapQuery {
 		SelectMapQuery<Person, PersonDTO> query = new GenericSelectQuery<Person, PersonDTO>(Person.class, PersonDTO.class);
 		query.prj(query.target().getName(), query.mapper().getName());
 
-		Assert.assertThat(HibernateObjectQuery.hqlGenerator(query).getQuery(),
-				CoreMatchers.is("select A.name as name from org.objectquery.hibernate.domain.Person A"));
+		assertThat(HibernateObjectQuery.hqlGenerator(query).getQuery(), CoreMatchers.is("select A.name as name from org.objectquery.hibernate.domain.Person A"));
 
 	}
 

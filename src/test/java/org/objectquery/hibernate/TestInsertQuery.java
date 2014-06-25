@@ -1,6 +1,5 @@
 package org.objectquery.hibernate;
 
-
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;

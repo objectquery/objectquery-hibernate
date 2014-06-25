@@ -1,11 +1,12 @@
 package org.objectquery.hibernate;
 
+import static org.junit.Assert.assertThat;
+
 import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.hibernate.Session;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.objectquery.SelectMapQuery;
@@ -29,8 +30,8 @@ public class TestPersistentSelectMapQuery {
 		query.prj(query.target().getName(), query.mapper().getName());
 
 		List<PersonDTO> res = HibernateObjectQuery.execute(query, session);
-		Assert.assertThat(res.size(), CoreMatchers.is(1));
-		Assert.assertThat(res.get(0).getName(), CoreMatchers.is("tom"));
+		assertThat(res.size(), CoreMatchers.is(1));
+		assertThat(res.get(0).getName(), CoreMatchers.is("tom"));
 	}
 
 	@After

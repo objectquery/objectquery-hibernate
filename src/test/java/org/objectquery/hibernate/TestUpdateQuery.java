@@ -1,6 +1,6 @@
 package org.objectquery.hibernate;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.hibernate.Session;
 import org.junit.After;
@@ -33,7 +33,7 @@ public class TestUpdateQuery {
 		query.set(query.target().getText(), "new-address");
 		query.eq(query.target().getText(), "old-address");
 		int res = HibernateObjectQuery.execute(query, session);
-		Assert.assertEquals(1, res);
+		assertEquals(1, res);
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class TestUpdateQuery {
 		query.set(query.target().getAddress(), "new-address");
 		query.eq(query.target().getAddress(), "old-address");
 		HQLQueryGenerator q = HibernateObjectQuery.hqlGenerator(query);
-		Assert.assertEquals("update org.objectquery.hibernate.domain.Home set address = :address where address  =  :address1", q.getQuery());
+		assertEquals("update org.objectquery.hibernate.domain.Home set address = :address where address  =  :address1", q.getQuery());
 	}
 
 	@Test(expected = ObjectQueryException.class)
@@ -73,7 +73,7 @@ public class TestUpdateQuery {
 		query.set(query.box(query.target().getPrice()), 1d);
 		query.eq(query.target().getText(), "2old-address");
 		int res = HibernateObjectQuery.execute(query, session);
-		Assert.assertEquals(1, res);
+		assertEquals(1, res);
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class TestUpdateQuery {
 		query.eq(query.target().getAddress(), "old-address");
 
 		HQLQueryGenerator q = HibernateObjectQuery.hqlGenerator(query);
-		Assert.assertEquals("update org.objectquery.hibernate.domain.Home set address = :address,price = :price where address  =  :address1", q.getQuery());
+		assertEquals("update org.objectquery.hibernate.domain.Home set address = :address,price = :price where address  =  :address1", q.getQuery());
 	}
 
 	@After

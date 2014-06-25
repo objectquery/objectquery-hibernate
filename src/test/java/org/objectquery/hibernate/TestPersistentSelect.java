@@ -1,9 +1,9 @@
 package org.objectquery.hibernate;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.hibernate.Session;
 import org.junit.After;
@@ -35,8 +35,8 @@ public class TestPersistentSelect {
 
 		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
 
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals(res.get(0).getName(), "tom");
+		assertEquals(1, res.size());
+		assertEquals(res.get(0).getName(), "tom");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -44,7 +44,7 @@ public class TestPersistentSelect {
 	public void testSimpleSelectWithutCond() {
 		GenericSelectQuery<Person, Object> qp = new GenericSelectQuery<Person, Object>(Person.class);
 		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(3, res.size());
+		assertEquals(3, res.size());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,8 +54,8 @@ public class TestPersistentSelect {
 		Person target = qp.target();
 		qp.eq(target.getDud().getHome(), target.getMom().getHome());
 		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals(res.get(0).getDud().getHome(), res.get(0).getMom().getHome());
+		assertEquals(1, res.size());
+		assertEquals(res.get(0).getDud().getHome(), res.get(0).getMom().getHome());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,8 +65,8 @@ public class TestPersistentSelect {
 		Person target = qp.target();
 		qp.eq(target.getDud().getName(), "tomdud");
 		List<Person> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals(res.get(0).getDud().getName(), "tomdud");
+		assertEquals(1, res.size());
+		assertEquals(res.get(0).getDud().getName(), "tomdud");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -76,8 +76,8 @@ public class TestPersistentSelect {
 		Person target = qp.target();
 		qp.prj(target, ProjectionType.COUNT);
 		List<Object> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals(3L, res.get(0));
+		assertEquals(1, res.size());
+		assertEquals(3L, res.get(0));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,9 +89,9 @@ public class TestPersistentSelect {
 		qp.prj(target.getHome());
 		qp.eq(target.getName(), "tom");
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals("tom", res.get(0)[0]);
-		Assert.assertEquals("homeless", ((Home) res.get(0)[1]).getAddress());
+		assertEquals(1, res.size());
+		assertEquals("tom", res.get(0)[0]);
+		assertEquals("homeless", ((Home) res.get(0)[1]).getAddress());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -102,10 +102,10 @@ public class TestPersistentSelect {
 		qp.prj(target.getName());
 		qp.order(target.getName());
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(3, res.size());
-		Assert.assertEquals("tom", res.get(0));
-		Assert.assertEquals("tomdud", res.get(1));
-		Assert.assertEquals("tommum", res.get(2));
+		assertEquals(3, res.size());
+		assertEquals("tom", res.get(0));
+		assertEquals("tomdud", res.get(1));
+		assertEquals("tommum", res.get(2));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -116,10 +116,10 @@ public class TestPersistentSelect {
 		qp.prj(target.getName());
 		qp.order(target.getName(), OrderType.DESC);
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(3, res.size());
-		Assert.assertEquals("tommum", res.get(0));
-		Assert.assertEquals("tomdud", res.get(1));
-		Assert.assertEquals("tom", res.get(2));
+		assertEquals(3, res.size());
+		assertEquals("tommum", res.get(0));
+		assertEquals("tomdud", res.get(1));
+		assertEquals("tom", res.get(2));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -139,7 +139,7 @@ public class TestPersistentSelect {
 		qp.likeNc(target.getName(), "tom");
 		qp.notLikeNc(target.getName(), "tom");
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(0, res.size());
+		assertEquals(0, res.size());
 
 	}
 
@@ -156,7 +156,7 @@ public class TestPersistentSelect {
 		qp.notIn(target.getName(), pars);
 
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(0, res.size());
+		assertEquals(0, res.size());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -168,7 +168,7 @@ public class TestPersistentSelect {
 		qp0.eq(target0.getName(), "tom");
 
 		List<Person> res0 = HibernateObjectQuery.buildQuery(qp0, session).list();
-		Assert.assertEquals(1, res0.size());
+		assertEquals(1, res0.size());
 		Person p = res0.get(0);
 
 		GenericSelectQuery<Person, Object> qp = new GenericSelectQuery<Person, Object>(Person.class);
@@ -177,7 +177,7 @@ public class TestPersistentSelect {
 		qp.notContains(target.getFriends(), p);
 
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(0, res.size());
+		assertEquals(0, res.size());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -191,10 +191,10 @@ public class TestPersistentSelect {
 		qp.order(target.getAddress());
 
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(res.size(), 3);
-		Assert.assertEquals(res.get(0)[1], 0d);
-		Assert.assertEquals(res.get(1)[1], 0d);
-		Assert.assertEquals(res.get(2)[1], 1000000d);
+		assertEquals(res.size(), 3);
+		assertEquals(res.get(0)[1], 0d);
+		assertEquals(res.get(1)[1], 0d);
+		assertEquals(res.get(2)[1], 1000000d);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -206,10 +206,10 @@ public class TestPersistentSelect {
 		qp.order(qp.box(target.getPrice()), ProjectionType.MAX, OrderType.ASC);
 
 		List<Home> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(3, res.size());
-		Assert.assertEquals(0d, res.get(0).getPrice(), 0);
-		Assert.assertEquals(0d, res.get(1).getPrice(), 0);
-		Assert.assertEquals(1000000d, res.get(2).getPrice(), 0);
+		assertEquals(3, res.size());
+		assertEquals(0d, res.get(0).getPrice(), 0);
+		assertEquals(0d, res.get(1).getPrice(), 0);
+		assertEquals(1000000d, res.get(2).getPrice(), 0);
 
 	}
 
@@ -224,10 +224,10 @@ public class TestPersistentSelect {
 		qp.order(qp.box(target.getPrice()), ProjectionType.MAX, OrderType.DESC);
 
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(3, res.size());
-		Assert.assertEquals((Double) res.get(0)[1], 1000000d, 0);
-		Assert.assertEquals((Double) res.get(1)[1], 0d, 0);
-		Assert.assertEquals((Double) res.get(2)[1], 0d, 0);
+		assertEquals(3, res.size());
+		assertEquals((Double) res.get(0)[1], 1000000d, 0);
+		assertEquals((Double) res.get(1)[1], 0d, 0);
+		assertEquals((Double) res.get(2)[1], 0d, 0);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -241,8 +241,8 @@ public class TestPersistentSelect {
 		qp.having(qp.box(target.getPrice()), ProjectionType.MAX).eq(1000000d);
 
 		List<Object[]> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals((Double) res.get(0)[1], 1000000d, 0);
+		assertEquals(1, res.size());
+		assertEquals((Double) res.get(0)[1], 1000000d, 0);
 	}
 
 	@Test
@@ -253,8 +253,8 @@ public class TestPersistentSelect {
 		qp.between(qp.box(target.getPrice()), 100000D, 2000000D);
 
 		List<Home> res = HibernateObjectQuery.buildQuery(qp, session).list();
-		Assert.assertEquals(1, res.size());
-		Assert.assertEquals(res.get(0).getPrice(), 1000000d, 0);
+		assertEquals(1, res.size());
+		assertEquals(res.get(0).getPrice(), 1000000d, 0);
 	}
 
 	@After

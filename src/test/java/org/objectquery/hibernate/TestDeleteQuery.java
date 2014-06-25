@@ -1,6 +1,7 @@
 package org.objectquery.hibernate;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.hibernate.Session;
 import org.junit.After;
@@ -28,14 +29,14 @@ public class TestDeleteQuery {
 		session.merge(ot);
 		DeleteQuery<Other> dq = new GenericeDeleteQuery<Other>(Other.class);
 		int deleted = HibernateObjectQuery.execute(dq, session);
-		Assert.assertTrue(deleted != 0);
+		assertTrue(deleted != 0);
 	}
 
 	@Test
 	public void testSimpleDeleteGen() {
 		DeleteQuery<Person> dq = new GenericeDeleteQuery<Person>(Person.class);
 		HQLQueryGenerator q = HibernateObjectQuery.hqlGenerator(dq);
-		Assert.assertEquals("delete org.objectquery.hibernate.domain.Person ", q.getQuery());
+		assertEquals("delete org.objectquery.hibernate.domain.Person ", q.getQuery());
 	}
 
 	@Test
@@ -47,7 +48,7 @@ public class TestDeleteQuery {
 		DeleteQuery<Person> dq = new GenericeDeleteQuery<Person>(Person.class);
 		dq.eq(dq.target().getName(), "to-delete");
 		int deleted = HibernateObjectQuery.execute(dq, session);
-		Assert.assertTrue(deleted != 0);
+		assertTrue(deleted != 0);
 	}
 
 	@Test
@@ -55,7 +56,7 @@ public class TestDeleteQuery {
 		DeleteQuery<Person> dq = new GenericeDeleteQuery<Person>(Person.class);
 		dq.eq(dq.target().getName(), "to-delete");
 		HQLQueryGenerator q = HibernateObjectQuery.hqlGenerator(dq);
-		Assert.assertEquals("delete org.objectquery.hibernate.domain.Person  where name  =  :name", q.getQuery());
+		assertEquals("delete org.objectquery.hibernate.domain.Person  where name  =  :name", q.getQuery());
 	}
 
 	@After
