@@ -12,10 +12,9 @@ import org.objectquery.UpdateQuery;
 
 public class HibernateQueryEngine extends QueryEngine<Session> {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <RET extends List<?>> RET execute(SelectQuery<?> query, Session engineSession) {
-		return (RET) HibernateObjectQuery.execute(query, engineSession);
+	public List<?> execute(SelectQuery<?> query, Session engineSession) {
+		return HibernateObjectQuery.execute(query, engineSession);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class HibernateQueryEngine extends QueryEngine<Session> {
 	}
 
 	@Override
-	public <RET extends List<M>, M> RET execute(SelectMapQuery<?, M> query, Session engineSession) {
+	public <M> List<M> execute(SelectMapQuery<?, M> query, Session engineSession) {
 		return HibernateObjectQuery.execute(query, engineSession);
 	}
 }
